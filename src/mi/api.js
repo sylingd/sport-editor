@@ -7,6 +7,7 @@ import * as log from "../log.js";
 import { getDirName } from "../utils.js";
 
 // 公共头
+const DEVICE_ID = "DA932FFFFE8816E7";
 const COMMON_HEADERS = {
   "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
   "User-Agent": "MiFit/4.6.0 (iPhone; iOS 14.0.1; Scale/2.00)",
@@ -57,26 +58,10 @@ export async function loginByPassword(username, password) {
  * 获取 AccessToken
  * {
  *   token_info: {
- *     login_token: 'NQVBQFJyQktGHlp6QkpbRl5LRl5qek4uXAQEBAAAAAFqkxITXYP0BwB38qOixn1nCAXBsdjhuDu3uXhorgfSgwXaEu3PX3Su4D3ORnnUI9po6jCIrFI_RyMl357xiiyvKhdGS8hotvmZFv50E3sQ6KZ-W1v0hOazY-fBTnB-R4_qw8G7TDE3EnqxDJ7kbJ46lQgAY67L8shTBpThIKz-fZu2TDeoYtwOj1-_EfrwpVrob2n3u5C_YXAd3q4ZQtZ4',
- *     app_token: 'NQVBQFJyQktGHlp6QkpbRl5LRl5qek4uXAQABAAAAAA4FfIlo7RFwnLXNgwDjJ-14ZEU8FKumnnEUS-__PJ0WtA2fV46czDEzWPGK2QlliMzVZVUd0R-y56Da7esYbNWuZTc2agnVq6wJ_Oz8YISxxS9mA-EepMgb9Bnrd1T5-yHiNMjwvOT3fs1f-zOts2QFjDWMoXqvQtnEe1ekKfvc0Cg4vdtuLk1oklwDymtQIQ',
- *     user_id: '1102541833',
- *     ttl: 31536000,
- *     app_ttl: 43200
+ *     login_token: 'LOGIN_TOKEN',
+ *     app_token: 'APP_TOKEN',
+ *     user_id: 'USER_ID',
  *   },
- *   regist_info: {
- *     is_new_user: 0,
- *     regist_date: 1615864097080,
- *     region: '1',
- *     country_code: 'CN'
- *   },
- *   thirdparty_info: {
- *     nickname: '',
- *     icon: '',
- *     third_id: 'NLD3d7BO_r1pzu558H9_F6wAAAXg5AWT1',
- *     email: '+8615070574275'
- *   },
- *   result: 'ok',
- *   domain: { 'id-dns': 'https://account-cn2.huami.com' }
  * }
  *
  * @param {code} code
@@ -111,7 +96,7 @@ export async function pushBandData(step, user_id, app_token) {
     userid: user_id,
     last_sync_data_time: 1597306380,
     device_type: 0,
-    last_deviceid: "DA932FFFFE8816E7",
+    last_deviceid: DEVICE_ID,
     data_json: await buildDataJson(step),
   });
 
@@ -139,11 +124,11 @@ export async function pushBandData(step, user_id, app_token) {
 
 async function buildDataJson(step) {
   const time = dayjs().format("YYYY-MM-DD");
-  const find_date = /.*?date":"(.*?)","data.*?/;
-  const find_step = /.*?ttl\\":(.*?),\\"dis.*?/;
 
   let data_json = await fs.readFile(path.join(getDirName(import.meta.url), "data.json"), "utf-8");
-  data_json = data_json.replace(find_date.exec(data_json)[1], time);
-  data_json = data_json.replace(find_step.exec(data_json)[1], step);
+  data_json = data_json.replace(/REPLACE_DATE/g, time);
+  data_json = data_json.replace(/REPLACE_TTL/g, step);
+  data_json = data_json.replace(/REPLACE_DEVICE_ID/g, DEVICE_ID);
+
   return data_json;
 }

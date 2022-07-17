@@ -8,7 +8,7 @@ const LogType = {
 
 export const logs = [];
 function log(msg, type = LogType.INFO) {
-  const m = `[${dayjs().format("YYYY-MM-DD HH:mm:ss.SSS")}] [${type}] ${msg}`;
+  const m = `[${dayjs().format("HH:mm:ss.SSS")}] [${type}] ${msg}`;
   console.log(m);
   logs.push(m);
 }
