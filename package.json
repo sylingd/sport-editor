@@ -1,0 +1,17 @@
+{
+  "name": "sport-editor",
+  "version": "1.0.0",
+  "description": "",
+  "author": "devifish",
+  "private": true,
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node ./src/index.js"
+  },
+  "dependencies": {
+    "axios": "^0.21.1",
+    "dayjs": "^1.10.4",
+    "fs-extra": "^10.1.0"
+  }
+}
