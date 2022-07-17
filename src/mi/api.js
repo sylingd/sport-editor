@@ -2,9 +2,9 @@ import path from "path";
 import Axios from "axios";
 import dayjs from "dayjs";
 import fs from "fs-extra";
-import { toUrlEncode } from "./common.js";
-import * as log from "./log.js";
-import { __dirname } from "./utils.js";
+import { toUrlEncode } from "../common.js";
+import * as log from "../log.js";
+import { getDirName } from "../utils.js";
 
 // 公共头
 const COMMON_HEADERS = {
@@ -142,7 +142,7 @@ async function buildDataJson(step) {
   const find_date = /.*?date":"(.*?)","data.*?/;
   const find_step = /.*?ttl\\":(.*?),\\"dis.*?/;
 
-  let data_json = await fs.readFile(path.join(__dirname, "data.json"), "utf-8");
+  let data_json = await fs.readFile(path.join(getDirName(import.meta.url), "data.json"), "utf-8");
   data_json = data_json.replace(find_date.exec(data_json)[1], time);
   data_json = data_json.replace(find_step.exec(data_json)[1], step);
   return data_json;

@@ -1,6 +1,6 @@
 import path from "path";
 import fs from "fs-extra";
-import { loginByPassword, getAccessToken, pushBandData } from "./api.js";
+import { loginByPassword, getAccessToken, pushBandData } from "./mi/api.js";
 import { isEmpty } from "./common.js";
 import * as log from "./log.js";
 import sendDingTalk from "./dingtalk.js";
